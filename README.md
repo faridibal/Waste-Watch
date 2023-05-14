@@ -17,14 +17,12 @@ Descargar y usar el APK
 
 Explica cómo usar tu aplicación. Proporciona ejemplos de código o instrucciones claras.
 
-## Contribución
+## Documentacion
 
-Indica si aceptas contribuciones a tu proyecto y cómo los interesados pueden contribuir.
+
 
 ## Licencia
 
 Indica la licencia bajo la cual se distribuye tu aplicación.
 
-## Contacto
 
-Proporciona información de contacto para preguntas o consultas.
