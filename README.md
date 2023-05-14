@@ -19,6 +19,7 @@ Explica cómo usar tu aplicación. Proporciona ejemplos de código o instruccion
 
 ## Documentacion
 
+[PROYECTO.odt](https://github.com/faridibal/Waste-Watch/files/11472943/PROYECTO.odt)
 
 
 ## Licencia
