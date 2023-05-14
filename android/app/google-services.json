@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "260559479756",
+    "project_id": "wastewatch-df987",
+    "storage_bucket": "wastewatch-df987.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260559479756:android:da8c0b9f08b82a03cb3369",
+        "android_client_info": {
+          "package_name": "com.example.waste_watch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260559479756-1ckkfeihh8b1mlhr5eensev3a3bimlro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-8PunGyWfnKQgtcvaVAFwTmb0Sm95-Y4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260559479756-1ckkfeihh8b1mlhr5eensev3a3bimlro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
