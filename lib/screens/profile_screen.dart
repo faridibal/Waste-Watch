@@ -135,9 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         : isFollowing
                                             ? FollowButton(
                                                 text: 'Dejar de seguir',
-                                                backgroundColor: Colors.black,
-                                                textColor: Colors.black,
-                                                borderColor: Colors.grey,
+                                                backgroundColor: Colors.grey,
+                                                textColor: Colors.white,
+                                                borderColor: Colors.white,
                                                 function: () async {
                                                   await FireStoreMethods()
                                                       .followUser(
@@ -154,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               )
                                             : FollowButton(
                                                 text: 'Seguir',
-                                                backgroundColor: Colors.blue,
+                                                backgroundColor: Colors.white,
                                                 textColor: Colors.black,
                                                 borderColor: Colors.blue,
                                                 function: () async {
@@ -263,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              color: Colors.grey,
+              color: Colors.black,
             ),
           ),
         ),

@@ -95,11 +95,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       isLoading = true;
     });
+    String description = _descriptionController.text;
     // empezar la carga
     try {
       // subir a la base de datos
       String res = await FireStoreMethods().uploadPost(
-        _descriptionController.text,
+        description,
         _file!,
         uid,
         username,
@@ -153,6 +154,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             child: IconButton(
               icon: const Icon(
                 Icons.upload,
+                size: 60,
               ),
               onPressed: () => _selectImage(context),
             ),
@@ -239,6 +241,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       ),
                     ),
                   ],
+                ),
+                TextField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                    hintText: 'Descripción del post',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
               ],
             ),

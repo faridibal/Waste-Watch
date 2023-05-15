@@ -39,12 +39,24 @@ class _FeedScreenState extends State<FeedScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          return ListView.builder(
+          return ListView.separated(
             itemCount: snapshot.data!.docs.length,
+            separatorBuilder: (BuildContext context, int index) =>
+                SizedBox(height: 15), // Espaciado vertical entre los posts
             itemBuilder: (ctx, index) => Container(
               margin: EdgeInsets.symmetric(
                 horizontal: width > webScreenSize ? width * 0.3 : 0,
-                vertical: width > webScreenSize ? 15 : 0,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: PostCard(
                 snap: snapshot.data!.docs[index].data(),

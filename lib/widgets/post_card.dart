@@ -6,15 +6,15 @@ import 'package:waste_watch/providers/user_provider.dart';
 import 'package:waste_watch/resources/firestore_methods.dart';
 import 'package:waste_watch/screens/comments_screen.dart';
 import 'package:waste_watch/screens/profile_screen.dart';
-import 'package:waste_watch/utils/colors.dart';
-import 'package:waste_watch/utils/global_variable.dart';
 import 'package:waste_watch/utils/utils.dart';
 import 'package:waste_watch/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:waste_watch/screens/image_screen.dart';
 
 class PostCard extends StatefulWidget {
   final snap;
+
   const PostCard({
     Key? key,
     required this.snap,
@@ -68,118 +68,79 @@ class _PostCardState extends State<PostCard> {
     final width = MediaQuery.of(context).size.width;
 
     return Container(
-      // boundary needed for web
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(
-          color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
-        ),
-        color: mobileBackgroundColor,
-      ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // HEADER SECTION OF THE POST
-          Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 4,
-              horizontal: 16,
-            ).copyWith(right: 0),
-            child: Row(
-              children: <Widget>[
-                GestureDetector(
+          Row(
+            children: <Widget>[
+              CircleAvatar(
+                radius: 24,
+                backgroundImage: NetworkImage(
+                  widget.snap['profImage'].toString(),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: GestureDetector(
                   onTap: () {
-                    // Navegar a la pantalla de usuario aquí
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ProfileScreen(uid: widget.snap['uid'].toString()),
+                        builder: (context) => ProfileScreen(
+                          uid: widget.snap['uid'].toString(),
+                        ),
                       ),
                     );
                   },
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(
-                      widget.snap['profImage'].toString(),
+                  child: Text(
+                    widget.snap['username'].toString(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navegar a la pantalla de usuario aquí
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfileScreen(
-                                uid: widget.snap['uid'].toString()),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            widget.snap['username'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                widget.snap['uid'].toString() == user.uid
-                    ? IconButton(
-                        onPressed: () {
-                          showDialog(
-                            useRootNavigator: false,
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                child: ListView(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 16),
-                                  shrinkWrap: true,
-                                  children: [
-                                    'Delete',
-                                  ].map((e) {
-                                    return InkWell(
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16,
-                                        ),
-                                        child: Text(e),
-                                      ),
-                                      onTap: () {
-                                        deletePost(
-                                            widget.snap['postId'].toString());
-                                        // Cerrar el cuadro de diálogo
-                                        Navigator.of(context).pop();
-                                      },
-                                    );
-                                  }).toList(),
+              ),
+              if (widget.snap['uid'].toString() == user.uid)
+                IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    deletePost(
+                                        widget.snap['postId'].toString());
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Delete'),
                                 ),
-                              );
-                            },
+                              ],
+                            ),
                           );
                         },
-                        icon: const Icon(Icons.more_vert),
-                      )
-                    : Container(),
-              ],
-            ),
+                      );
+                    }),
+            ],
           ),
-          // IMAGE SECTION OF THE POST
+          const SizedBox(height: 16),
           GestureDetector(
             onDoubleTap: () {
               FireStoreMethods().likePost(
@@ -191,15 +152,25 @@ class _PostCardState extends State<PostCard> {
                 isLikeAnimating = true;
               });
             },
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ImageScreen(imageUrl: widget.snap['postUrl'].toString()),
+                ),
+              );
+            },
             child: Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: double.infinity,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
                   child: Image.network(
                     widget.snap['postUrl'].toString(),
                     fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.width * 0.6,
+                    width: double.infinity,
                   ),
                 ),
                 AnimatedOpacity(
@@ -207,9 +178,7 @@ class _PostCardState extends State<PostCard> {
                   opacity: isLikeAnimating ? 1 : 0,
                   child: LikeAnimation(
                     isAnimating: isLikeAnimating,
-                    duration: const Duration(
-                      milliseconds: 400,
-                    ),
+                    duration: const Duration(milliseconds: 400),
                     onEnd: () {
                       setState(() {
                         isLikeAnimating = false;
@@ -225,27 +194,35 @@ class _PostCardState extends State<PostCard> {
               ],
             ),
           ),
-          // LIKE, COMMENT SECTION OF THE POST
+          const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              LikeAnimation(
-                isAnimating: widget.snap['likes'].contains(user.uid),
-                smallLike: true,
-                child: IconButton(
-                  icon: widget.snap['likes'].contains(user.uid)
-                      ? const Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        )
-                      : const Icon(
-                          Icons.favorite_border,
-                        ),
-                  onPressed: () => FireStoreMethods().likePost(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: Icon(
+                  widget.snap['likes'].contains(user.uid)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: widget.snap['likes'].contains(user.uid)
+                      ? Colors.red
+                      : Colors.grey,
+                ),
+                onPressed: () {
+                  FireStoreMethods().likePost(
                     widget.snap['postId'].toString(),
                     user.uid,
                     widget.snap['likes'],
-                  ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.location_on_outlined,
+                  size: 30,
+                ),
+                onPressed: () => MapsLauncher.launchCoordinates(
+                  double.parse(widget.snap['latitude']),
+                  double.parse(widget.snap['longitude']),
                 ),
               ),
               IconButton(
@@ -260,88 +237,29 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
               ),
-              //add a text with the coordenates
-              IconButton(
-                icon: const Icon(
-                  Icons.location_on_outlined,
-                ),
-                onPressed: () => MapsLauncher.launchCoordinates(
-                  double.parse(widget.snap['latitude']),
-                  double.parse(widget.snap['longitude']),
-                ),
-              ),
             ],
           ),
-          //DESCRIPTION AND NUMBER OF COMMENTS
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                DefaultTextStyle(
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontWeight: FontWeight.w800),
-                    child: Text(
-                      '${widget.snap['likes'].length} likes',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    )),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(
-                    top: 8,
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      style: const TextStyle(color: primaryColor),
-                      children: [
-                        TextSpan(
-                          text: widget.snap['username'].toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' ${widget.snap['description']}',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      'View all $commentLen comments',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: secondaryColor,
-                      ),
-                    ),
-                  ),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CommentsScreen(
-                        postId: widget.snap['postId'].toString(),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Text(
-                    DateFormat.yMMMd()
-                        .format(widget.snap['datePublished'].toDate()),
-                    style: const TextStyle(
-                      color: secondaryColor,
-                    ),
-                  ),
-                ),
-              ],
+          const SizedBox(height: 16),
+          Text(
+            widget.snap['description'],
+            style: const TextStyle(
+              fontSize: 16,
             ),
-          )
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '${widget.snap['likes'].length} likes',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
+            style: TextStyle(
+              color: Colors.grey,
+            ),
+          ),
         ],
       ),
     );
