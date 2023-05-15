@@ -14,8 +14,8 @@ ambiental.
 
 En Realease esta el Apk dergargable para usar la aplicación.
 
-##Documentación
+## Documentación
 [PROYECTO.pdf](https://github.com/faridibal/Waste-Watch/files/11482304/PROYECTO.pdf)
 
-##Video Presentación
+## Video Presentación
 https://www.youtube.com/watch?v=NfPNQy2aluI&t=1s
