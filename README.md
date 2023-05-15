@@ -1,16 +1,21 @@
-# waste_watch
+# Waste Watch
 
-A new Flutter project.
+Nuestro proyecto es una aplicación móvil diseñada para localizar, fotografiar y 
+geolocalizar vertederos ilegales en Lanzarote. Con esta aplicación, los usuarios pueden 
+contribuir a la identificación y denuncia de vertederos ilegales, promoviendo así la 
+protección del medio ambiente y la preservación de la belleza natural de la isla.
+La aplicación funciona como una red social, donde los usuarios pueden compartir 
+información sobre los vertederos ilegales que encuentren, incluyendo fotos, ubicación y 
+descripción. También pueden interactuar con otras publicaciones, comentando y dando 
+me gusta, fomentando así la participación y la conciencia colectiva sobre este problema 
+ambiental.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+En Realease esta el Apk dergargable para usar la aplicación.
 
-A few resources to get you started if this is your first Flutter project:
+##Documentación
+[PROYECTO.pdf](https://github.com/faridibal/Waste-Watch/files/11482304/PROYECTO.pdf)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##Video Presentación
+https://www.youtube.com/watch?v=NfPNQy2aluI&t=1s
